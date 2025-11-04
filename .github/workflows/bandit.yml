@@ -1,0 +1,28 @@
+---
+name: Bandit Scan
+
+on:
+  push: null
+  pull_request: null
+
+permissions: {}
+
+jobs:
+  bandit-scan:
+    name: Bandit Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Run Bandit
+        uses: shundor/bandit-action@v1
+        with:
+          path: "."
+          level: high
+          confidence: high
+          exit_zero: true
