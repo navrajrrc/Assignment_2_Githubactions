@@ -5,8 +5,12 @@ on:
   push: null
   pull_request: null
 
-permissions: {}
-
+permissions:
+      contents: read
+      packages: read
+      # To report GitHub Actions status checks
+      statuses: write
+      
 jobs:
   bandit-scan:
     name: Bandit Scan
