@@ -5,8 +5,12 @@ on:
   push: null
   pull_request: null
 
-permissions: {}
-
+permissions:
+      contents: read
+      packages: read
+      # To report GitHub Actions status checks
+      statuses: write
+      
 jobs:
   bandit-scan:
     name: Bandit Scan
@@ -20,8 +24,9 @@ jobs:
           persist-credentials: false
 
       - name: Run Bandit
-        uses: shundor/bandit-action@v1
+        uses: shundor/python-bandit-scan@v1.0
         with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           path: "."
           level: high
           confidence: high

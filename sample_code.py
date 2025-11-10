@@ -1,7 +1,7 @@
 import os
 import pymysql
 from urllib.request import urlopen
-
+# to scan the file
 db_config = {
     'host': 'mydatabase.com',
     'user': 'admin',
