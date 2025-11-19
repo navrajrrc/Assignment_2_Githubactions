@@ -20,7 +20,7 @@ jobs:
           persist-credentials: false
 
       - name: Run Bandit
-        uses: shundor/bandit-action@a255dfaecbd1b4dbdb09d10a1f69e9f1874e5999
+        uses: shundor/bandit-action@v1.9.1
         with:
           path: "."
           level: high
