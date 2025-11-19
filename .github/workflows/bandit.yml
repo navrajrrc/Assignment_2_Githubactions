@@ -1,28 +1,39 @@
----
-name: Bandit Scan
-
+name: "Bandit Python Security Scan"
+ 
 on:
-  push: null
-  pull_request: null
-
-permissions: {}
-
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+ 
+permissions:
+  contents: read
+  security-events: write
+ 
 jobs:
   bandit-scan:
-    name: Bandit Scan
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
+ 
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
         with:
-          fetch-depth: 0
-          persist-credentials: false
-
-      - name: Run Bandit
-        uses: shundor/bandit-action@v4
+          python-version: '3.11'
+ 
+      - name: Install Bandit and dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install bandit
+          pip install pymysql
+ 
+      - name: Run Bandit scan
+        run: |
+          bandit -r . -f json -o bandit-report.json || true
+ 
+      - name: Upload Bandit report
+        uses: actions/upload-artifact@v4
         with:
-          path: "."
-          level: high
-          confidence: high
-          exit_zero: true
+          name: bandit-report
+          path: bandit-report.json
